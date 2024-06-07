@@ -1,0 +1,17 @@
+services:
+  pollinator-app-pgdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  pollinator-app:
+    build: .
+    ports:
+      - "8081:8081"
+      - "5005:5005"
+    depends_on:
+      - pollinator-app-pgdb
+    environment:
+      - "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
